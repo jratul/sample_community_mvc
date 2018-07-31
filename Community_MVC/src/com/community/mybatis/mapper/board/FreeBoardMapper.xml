@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="freeBoard">
 	<sql id="boardColumn">
-		num, writer, title, content, viewCount, TO_CHAR('YYYY.MM.DD AM HH:MI:SS', regdate) regdate
+		num, writer, title, content, viewCount, TO_CHAR(regdate, 'YYYY.MM.DD AM HH:MI:SS') regdate
 	</sql>
 	
 	<insert id="insert" parameterType="boardDto">

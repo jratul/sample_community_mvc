@@ -19,10 +19,13 @@
 		<div class="content">
 			<h3>
 			<c:choose>
-				<c:when test="${boardName eq 'free' }"><a href="${pageContext.request.contextPath }/board/free/list.do"></a>자유게시판</c:when>
+				<c:when test="${boardName eq 'free' }"><a href="${pageContext.request.contextPath }/board/free/list.do">자유게시판</a></c:when>
 			</c:choose>
 			</h3>
-			<br /> <a href="${pageContext.request.contextPath }/board/private/${boardName }/insert_form.do" class="btn btn-info">글쓰기</a>
+			<br /> 
+			<c:if test="${not empty id }">
+				<a href="${pageContext.request.contextPath }/board/private/${boardName }/insert_form.do" class="btn btn-info">글쓰기</a>
+			</c:if>
 			<table class="table table-striped">
 				<thead>
 					<tr>

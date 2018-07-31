@@ -1,5 +1,7 @@
 package com.community.controller;
 
+import com.community.board.free.BoardFreeInsertAction;
+import com.community.board.free.BoardFreeInsertFormAction;
 import com.community.board.free.BoardFreeListAction;
 import com.community.home.HomeAction;
 import com.community.user.UserCanUseEmailAction;
@@ -52,6 +54,10 @@ public class UserActionFactory {
 			action = new UserLogoutAction();
 		} else if(command.equals("/board/free/list")) {
 			action = new BoardFreeListAction();
+		} else if(command.equals("/board/private/free/insert_form")) {
+			action = new BoardFreeInsertFormAction();
+		} else if(command.equals("/board/private/free/insert")) {
+			action = new BoardFreeInsertAction();
 		}
 		
 		return action;

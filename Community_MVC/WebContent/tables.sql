@@ -16,3 +16,14 @@ CREATE TABLE c_board_free(
 	viewCount NUMBER DEFAULT 0,
 	regdate DATE DEFAULT SYSDATE
 );
+
+SELECT *   
+FROM (    
+SELECT result1.*, ROWNUM rnum FROM (     
+SELECT    num, writer, title, content, viewCount, TO_CHAR('YYYY.MM.DD AM HH:MI:SS', regdate) regdate        
+FROM c_board_free            
+ORDER BY num DESC) result1)   
+WHERE rnum BETWEEN 1 AND 3
+
+SELECT num, writer, title, content, viewCount, regdate
+FROM c_board_free;
