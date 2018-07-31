@@ -12,9 +12,9 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link" href="home.do">Home</a></li>
+				<li class="nav-item active"><a class="nav-link" href="${pageContext.request.contextPath }/home.do">Home</a></li>
 				<li class="nav-item active"><a class="nav-link" href="#">Notice</a></li>
-				<li class="nav-item active"><a class="nav-link" href="#">Board</a></li>
+				<li class="nav-item active"><a class="nav-link" href="${pageContext.request.contextPath }/board/free/list.do">Board</a></li>
 				<li class="nav-item active"><a class="nav-link" href="#">Gallery</a></li>
 				</li>
 			</ul>

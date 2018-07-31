@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<typeAliases>
 		<!-- <typeAlias type="test.member.dto.MemberDto" alias="memberDto"/> -->
 		<typeAlias type="com.community.dto.user.UserDto" alias="userDto"/>
+		<typeAlias type="com.community.dto.board.BoardDto" alias="boardDto"/>
 	</typeAliases>
 	
 	<!-- 환경설정 -->
@@ -27,6 +28,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- sql 문을 정의하고 있는 xml 문서 -->
 	<mappers>
 		<!-- <mapper resource="test/mybatis/MemberMapper.xml"/> -->
-		<mapper resource="com/community/mybatis/UserMapper.xml"/>
+		<mapper resource="com/community/mybatis/mapper/UserMapper.xml"/>
+		<mapper resource="com/community/mybatis/mapper/board/FreeBoardMapper.xml"/>
 	</mappers>
 </configuration>

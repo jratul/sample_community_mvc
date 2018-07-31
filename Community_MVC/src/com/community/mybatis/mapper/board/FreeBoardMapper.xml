@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="freeBoard">
+	<sql id="boardColumn">
+		num, writer, title, content, viewCount, TO_CHAR('YYYY.MM.DD AM HH:MI:SS', regdate) regdate
+	</sql>
+	
+	<insert id="insert" parameterType="boardDto">
+		INSERT INTO c_board_free
+		(num, writer, title, content)
+		VALUES(c_board_free_seq.NEXTVAL, #{writer}, #{title}, #{content})
+	</insert>
+	<select id="getList" parameterType="boardDto" resultType="boardDto">
+		SELECT *
+		FROM	(
+			SELECT result1.*, ROWNUM rnum FROM (
+				SELECT <include refid="boardColumn"/>
+				FROM c_board_free
+				<where>
+					<if test="writer != null">
+						OR writer LIKE '%'||#{writer}||'%'
+					</if>
+					<if test="title != null">
+						OR title LIKE '%'||#{title}||'%'
+					</if>
+					<if test="content != null">
+						OR content LIKE '%'||#{content}||'%'
+					</if>
+				</where>
+				ORDER BY num DESC) result1)
+		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	<select id="getCount" parameterType="boardDto" resultType="int">
+		SELECT NVL(MAX(ROWNUM), 0)
+		FROM c_board_free
+		<where>
+			<if test="writer != null">
+				OR writer LIKE '%'||#{writer}||'%'
+			</if>
+			<if test="title != null">
+				OR title LIKE '%'||#{title}||'%'
+			</if>
+			<if test="content != null">
+				OR content LIKE '%'||#{content}||'%'
+			</if>
+		</where>
+	</select>
+</mapper>

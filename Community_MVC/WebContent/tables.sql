@@ -7,3 +7,12 @@ CREATE TABLE c_user (
 	point NUMBER DEFAULT 0,
 	regdate DATE DEFAULT SYSDATE
 )
+
+CREATE TABLE c_board_free(
+	num NUMBER PRIMARY KEY,
+	writer VARCHAR2(100) NOT NULL,
+	title VARCHAR2(100) NOT NULL,
+	content CLOB,
+	viewCount NUMBER DEFAULT 0,
+	regdate DATE DEFAULT SYSDATE
+);

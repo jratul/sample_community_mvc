@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+	<sql id="userColumn">
+		id, pwd, nickname, email, pic, point, regdate
+	</sql>
+	<insert id="insert" parameterType="userDto">
+		INSERT INTO c_user
+		(id, pwd, nickname, email, pic)
+		VALUES(#{id}, #{pwd}, #{nickname}, #{email}, #{pic})
+	</insert>
+	<select id="canUseId" parameterType="String" resultType="String">
+		SELECT id 
+		FROM c_user
+		WHERE id = #{id}
+	</select>
+	<select id="canUseNickname" parameterType="String" resultType="String">
+		SELECT nickname
+		FROM c_user
+		WHERE nickname = #{nickname}
+	</select>
+	<select id="canUseEmail" parameterType="String" resultType="String">
+		SELECT email
+		FROM c_user
+		WHERE email = #{email}
+	</select>
+	
+	<select id="isLoginValid" parameterType="userDto" resultType="int">
+		SELECT count(*)
+		FROM c_user
+		WHERE id=#{id} AND pwd = #{pwd}
+	</select>
+	<select id="getData" parameterType="String" resultType="userDto">
+		SELECT <include refid="userColumn"/>
+		FROM c_user
+		WHERE id = #{id}
+	</select>
+</mapper>

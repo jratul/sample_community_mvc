@@ -1,5 +1,6 @@
 package com.community.controller;
 
+import com.community.board.free.BoardFreeListAction;
 import com.community.home.HomeAction;
 import com.community.user.UserCanUseEmailAction;
 import com.community.user.UserCanUseIdAction;
@@ -49,6 +50,8 @@ public class UserActionFactory {
 			action = new UserGetInfoAction();
 		} else if(command.equals("/user/logout")) {
 			action = new UserLogoutAction();
+		} else if(command.equals("/board/free/list")) {
+			action = new BoardFreeListAction();
 		}
 		
 		return action;
