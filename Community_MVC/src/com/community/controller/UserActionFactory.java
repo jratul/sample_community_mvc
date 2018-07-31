@@ -8,6 +8,7 @@ import com.community.user.UserGetInfoAction;
 import com.community.user.UserInsertAction;
 import com.community.user.UserInsertFormAction;
 import com.community.user.UserLoginAction;
+import com.community.user.UserLogoutAction;
 
 public class UserActionFactory {
 	private static UserActionFactory factory;
@@ -46,6 +47,8 @@ public class UserActionFactory {
 			action = new UserLoginAction();
 		} else if(command.equals("/user/getInfo")) {
 			action = new UserGetInfoAction();
+		} else if(command.equals("/user/logout")) {
+			action = new UserLogoutAction();
 		}
 		
 		return action;

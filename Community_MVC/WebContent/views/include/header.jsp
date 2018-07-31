@@ -20,7 +20,7 @@
 			</ul>
 			<ul class="nav justify-content-end">
 				<c:choose>
-					<c:when test="${not empty id }">
+					<c:when test="${empty id }">
 						<li class="nav-item"><a href="" class="nav-right">Login</a></li>
 						&nbsp;<span class="nav-right">|</span>&nbsp;
 						<li class="nav-item"><a href="${pageContext.request.contextPath }/user/insert_form.do" class="nav-right">Join</a></li>
