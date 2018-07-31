@@ -13,7 +13,7 @@ public class SqlMapConfig {
 	// static 초기화
 	static {
 		// MyBatis 설정 xml 문서의 위치
-		String resource = "test/mybatis/Configuration.xml";
+		String resource = "com/community/mybatis/Configuration.xml";
 		try {
 			Reader reader = Resources.getResourceAsReader(resource);
 			// SqlSessionFactory 객체의 참조값을 얻어내서 맴버필드에 저장

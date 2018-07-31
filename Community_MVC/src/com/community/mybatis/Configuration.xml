@@ -4,11 +4,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<!-- DB 접속 정보 -->
-	<properties resource="test/mybatis/db.properties" />
+	<properties resource="com/community/mybatis/db.properties" />
 	
 	<!-- parameterType or resultType 별칭 정의하기 -->
 	<typeAliases>
 		<!-- <typeAlias type="test.member.dto.MemberDto" alias="memberDto"/> -->
+		<typeAlias type="com.community.dto.user.UserDto" alias="userDto"/>
 	</typeAliases>
 	
 	<!-- 환경설정 -->
@@ -25,11 +26,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</environments>
 	<!-- sql 문을 정의하고 있는 xml 문서 -->
 	<mappers>
-		<mapper resource="test/mybatis/MemberMapper.xml"/>
-		<mapper resource="test/mybatis/UsersMapper.xml"/>
-		<mapper resource="test/mybatis/FileMapper.xml"/>
-		<mapper resource="test/mybatis/GalleryMapper.xml"/>
-		<mapper resource="test/mybatis/CafeMapper.xml"/>
-		<mapper resource="test/mybatis/CafeCommentMapper.xml"/>
+		<!-- <mapper resource="test/mybatis/MemberMapper.xml"/> -->
+		<mapper resource="com/community/mybatis/UserMapper.xml"/>
 	</mappers>
 </configuration>

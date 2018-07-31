@@ -20,7 +20,7 @@
 			<ul class="nav justify-content-end">
 				<li class="nav-item"><a href="" class="nav-right">Login</a></li>
 				&nbsp;<span class="nav-right">|</span>&nbsp;
-				<li class="nav-item"><a href="" class="nav-right">Join</a></li>
+				<li class="nav-item"><a href="user/insert_form.do" class="nav-right">Join</a></li>
 			</ul>
 		</div>
 	</div>

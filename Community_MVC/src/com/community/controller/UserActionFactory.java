@@ -1,6 +1,11 @@
 package com.community.controller;
 
 import com.community.home.HomeAction;
+import com.community.user.UserCanUseEmailAction;
+import com.community.user.UserCanUseIdAction;
+import com.community.user.UserCanUseNicknameAction;
+import com.community.user.UserInsertAction;
+import com.community.user.UserInsertFormAction;
 
 public class UserActionFactory {
 	private static UserActionFactory factory;
@@ -25,7 +30,17 @@ public class UserActionFactory {
 		if(command.equals("/home")) {
 			//权 夸没 贸府
 			action = new HomeAction();
-		} 
+		} else if(command.equals("/user/insert_form")) {
+			action = new UserInsertFormAction();
+		} else if(command.equals("/user/canUseId")) {
+			action = new UserCanUseIdAction();
+		} else if(command.equals("/user/canUseNickname")) {
+			action = new UserCanUseNicknameAction();
+		} else if(command.equals("/user/canUseEmail")) {
+			action = new UserCanUseEmailAction();
+		} else if(command.equals("/user/insert")) {
+			action = new UserInsertAction();
+		}
 		
 		return action;
 	}
