@@ -27,3 +27,16 @@ a.nav-right:hover {
 	color: white !important;
 	text-decoration: underline;
 }
+.user-box {
+	float:left;
+	margin-right: 50px;
+	border: 1px dotted #99ccff;
+	width: 300px;
+	min-width: 300px;
+	padding: 50px;
+}
+
+#picInfo {
+	width: 100px;
+	height: 100px;
+}

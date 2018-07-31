@@ -24,4 +24,15 @@
 		FROM c_user
 		WHERE email = #{email}
 	</select>
+	
+	<select id="isLoginValid" parameterType="userDto" resultType="int">
+		SELECT count(*)
+		FROM c_user
+		WHERE id=#{id} AND pwd = #{pwd}
+	</select>
+	<select id="getData" parameterType="String" resultType="userDto">
+		SELECT <include refid="userColumn"/>
+		FROM c_user
+		WHERE id = #{id}
+	</select>
 </mapper>

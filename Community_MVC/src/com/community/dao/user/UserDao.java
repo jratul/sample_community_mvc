@@ -99,4 +99,40 @@ public class UserDao {
 			return false;
 		}
 	}
+	
+	public boolean isLoginValid(UserDto dto) {
+		SqlSession session = null;
+		int flag = 0;
+		try {
+			session = factory.openSession(true);
+			//sql문 예시
+			//flag = session.insert("member.insert",dto);
+			flag = session.selectOne("user.isLoginValid", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		if (flag == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public UserDto getData(String id) {
+		SqlSession session = null;
+		UserDto dto = null;
+		try {
+			session = factory.openSession(true);
+			//sql문 예시
+			//flag = session.insert("member.insert",dto);
+			dto = session.selectOne("user.getData", id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return dto;
+	}
 }

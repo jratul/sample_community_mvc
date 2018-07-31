@@ -4,8 +4,10 @@ import com.community.home.HomeAction;
 import com.community.user.UserCanUseEmailAction;
 import com.community.user.UserCanUseIdAction;
 import com.community.user.UserCanUseNicknameAction;
+import com.community.user.UserGetInfoAction;
 import com.community.user.UserInsertAction;
 import com.community.user.UserInsertFormAction;
+import com.community.user.UserLoginAction;
 
 public class UserActionFactory {
 	private static UserActionFactory factory;
@@ -40,6 +42,10 @@ public class UserActionFactory {
 			action = new UserCanUseEmailAction();
 		} else if(command.equals("/user/insert")) {
 			action = new UserInsertAction();
+		} else if(command.equals("/user/login")) {
+			action = new UserLoginAction();
+		} else if(command.equals("/user/getInfo")) {
+			action = new UserGetInfoAction();
 		}
 		
 		return action;
