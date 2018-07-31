@@ -1,0 +1,13 @@
+footer {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+}
+
+.content {
+	margin-top: 10px;
+}
+
+.nav-right {
+	color: white;
+}
