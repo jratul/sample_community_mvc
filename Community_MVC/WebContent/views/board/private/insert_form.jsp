@@ -23,20 +23,16 @@
 			글쓰기
 		</h3>
 		<form action="${pageContext.request.contextPath }/board/private/${boardName }/insert.do" method="post">
-			<div class="row">
-				<div class="col-xs-6">
-					<div class="form-group">
-						<label for="writer">작성자</label>
-						<input class="form-control col-xs-6" type="text" id="writer" value="${id }" disabled="disabled"/><br/>
-					</div>
+			<div class="form-row">
+				<div class="form-group col-sm-6">
+					<label for="writer">작성자</label>
+					<input class="form-control" type="text" id="writer" value="${id }" disabled="disabled"/><br/>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-xs-6">
-					<div class="form-group">
-						<label for="title">제목</label>
-						<input class="form-control col-xs-6" type="text" name="title" id="title"/><br/>
-					</div>
+			<div class="form-row">
+				<div class="form-group col-sm-6">
+					<label for="title">제목</label>
+					<input class="form-control" type="text" name="title" id="title"/><br/>
 				</div>
 			</div>
 			<br />

@@ -29,6 +29,13 @@ CREATE TABLE c_board_free_comment(
 	dislikeCnt NUMBER DEFAULT 0
 )
 
+CREATE TABLE c_board_free_comment_like (
+	id VARCHAR2(30),
+	likeCmtNum NUMBER DEFAULT 0,
+	dislikeCmtNum Number DEFAULT 0
+)
+
+
 CREATE SEQUENCE c_board_free_comment_seq;
 
 DROP TABLE c_board_free_comment

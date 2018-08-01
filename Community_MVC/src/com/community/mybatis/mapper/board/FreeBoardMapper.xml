@@ -71,4 +71,9 @@
 		SET viewCount = viewCount + 1
 		WHERE num = #{num}
 	</update>
+	<update id="addPoint" parameterType="String">
+		UPDATE c_user
+		SET point = point + 3
+		WHERE id = #{id}
+	</update>
 </mapper>

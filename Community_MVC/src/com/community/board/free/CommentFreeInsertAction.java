@@ -27,6 +27,10 @@ public class CommentFreeInsertAction extends Action{
 		
 		boolean isSuccess = FreeCommentDao.getInstance().insert(dto);
 		
+		if(isSuccess) {
+			FreeCommentDao.getInstance().addPoint((String)request.getSession().getAttribute("id"));
+		}
+		
 		request.setAttribute("isSuccess", isSuccess);
 		request.setAttribute("boardName", "free");
 		request.setAttribute("postNum", postNum);

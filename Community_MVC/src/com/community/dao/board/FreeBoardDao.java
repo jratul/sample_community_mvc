@@ -114,4 +114,24 @@ public class FreeBoardDao {
 			return false;
 		}
 	}
+	
+	public boolean addPoint(String id) {
+		SqlSession session = null;
+		int flag = 0;
+		try {
+			session = factory.openSession(true);
+			//sql¹® ¿¹½Ã
+			//flag = session.insert("member.insert",dto);
+			flag = session.update("freeBoard.addPoint", id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		if (flag > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

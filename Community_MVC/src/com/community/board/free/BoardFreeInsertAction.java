@@ -28,6 +28,10 @@ public class BoardFreeInsertAction extends Action{
 		//DB에 저장
 		boolean isSuccess = FreeBoardDao.getInstance().insert(dto);
 		
+		if(isSuccess) {
+			FreeBoardDao.getInstance().addPoint((String) request.getSession().getAttribute("id"));
+		}
+		
 		//request에 성공 여부 담기
 		request.setAttribute("isSuccess", isSuccess);
 		
