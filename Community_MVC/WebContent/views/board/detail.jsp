@@ -10,6 +10,8 @@
 	href="${pageContext.request.contextPath }/resources/css/bootstrap.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/css/nav.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/css/board.css" />
 <script
 	src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
 </head>
@@ -83,60 +85,88 @@
 				<!-- 댓글에 관련된 UI -->
 				<div class="comments">
 				</div>
+				<!-- 원글에 댓글을 작성할수 있는 폼 -->
+				<div class="comment_form">
+					<form action="${pageContext.request.contextPath }/board/${boardName }/comment/insert.do" method="post" class="form-inline" id="newCommentForm">
+						<input type="hidden" name="writer" value="${nickname }" /> 
+						<input type="hidden" name="postNum" value="${postNum }" />
+						<input type="hidden" name="parentNum" value="0" />
+						<input type="hidden" name="depth" value="0" />
+						<textarea name="content" class="form-control" cols=100></textarea>
+						<button type="submit" class="btn btn-primary">등록</button>
+					</form>
+				</div>
 			</div>
-			<!-- 원글에 댓글을 작성할수 있는 폼 -->
-			<div class="comment_form">
-				<form action="comment_insert.do" method="post" class="form-inline">
-					<input type="hidden" name="writer" value="${id }" /> <input
-						type="hidden" name="ref_group" value="${dto.num }" /> <input
-						type="hidden" name="target_id" value="${dto.writer }" />
-					<textarea name="content" class="form-control" cols=100></textarea>
-					<button type="submit" class="btn btn-primary">등록</button>
-				</form>
-			</div>
+			<br /><br /><br /><br />
 		</div>
 	</div>
 	<%@include file="../include/footer.jsp" %>
 	<script>
 		function appendComment(item) {
-			var newComment = $("<div class='comment'/>");
+			var marginLeft = 50 * item.depth;
+			var newComment = $("<div class='comment' style='margin-left:"+ marginLeft + "px'/>");
 			newComment
-			.html("<img src='${pageContext.request.contextPath }"+item.pic+"' style='width: 50px; height:50px;'/>" +" " + item.num + " " + item.writer + " " + item.content + " " + item.likeCnt + " " + item.dislikeCnt + " " + item.regdate);
+			.html("<img src='${pageContext.request.contextPath }"+item.pic+"' style='width: 50px; height:50px;'/>" +" " + item.num + " <strong>" + item.writer + "</strong> " + item.content + " <font color = 'blue'>" + item.likeCnt + "</font> <font color='red'>" + item.dislikeCnt + "</font> " + item.regdate
+				+ "<div class= 'commentRightBtn'><font color='blue'>추천</font>  <font color='red'>비추천</font>  수정  삭제  답글</div>"
+			);
 			
 			newComment.append("<hr/>").appendTo(".comments");
+		}
+		
+		function loadComments(postNum, pageNum) {
+			$.ajax({
+				url: "${pageContext.request.contextPath }/board/${boardName}/comment/list.do",
+				data: {
+					"postNum" : postNum,
+					"pageNum" : pageNum
+				},
+				success: function(responseData) {
+					startPageNum = responseData.startPageNum;
+					endPageNum = responseData.endPageNum;
+					
+					$(".comments").html("");
+					responseData.list.forEach(function(value, index) {
+						appendComment(value);
+					});
+					
+					$(".comments").append("<br/>");
+					$(".comments").append("<<");
+					for(var i=startPageNum; i<=endPageNum;i++) {
+						var eleStrPre = "<a href='javascript: loadComments("+postNum+", "+ i +")'><span style='margin-left:5px; margin-right:5px;'>";
+						var eleStrPost
+						
+						if(i==pageNum) {
+							eleStrPost = "<strong><u>" + i + "</u></strong></span></a>";
+						} else {
+							eleStrPost = i + "</span></a>";
+						}
+						var newPageBtn = $(eleStrPre + eleStrPost + "  ");
+						$(".comments").append(newPageBtn);
+					}
+					$(".comments").append(">>");
+				},
+				error:function(request,status,error){
+			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error)
+			   }
+			});
 		}
 		
 		var postNum = ${postNum};
 		var startPageNum;
 		var endPageNum;
 
-		$.ajax({
-			url: "${pageContext.request.contextPath }/board/free/comment/list.do",
-			data: {
-				"postNum" : postNum,
-				"pageNum" : 1
-			},
-			success: function(responseData) {
-				startPageNum = responseData.startPageNum;
-				endPageNum = responseData.endPageNum;
+		loadComments(postNum, 1);
+		
+		$("#newCommentForm").on("submit", function() {
+			if(${empty nickname}) {
+				alert("로그인이 필요합니다.");
+				return false;
+			}
 				
-				console.log(responseData);
-				responseData.list.forEach(function(value, index) {
-					appendComment(value);
-				});
-				
-				$(".comments").append("<br/>");
-				$(".comments").append("<<");
-				for(var i=startPageNum; i<=endPageNum;i++) {
-					$(".comments").append(i + " ");
-				}
-				$(".comments").append(">>");
-			},
-			error:function(request,status,error){
-		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error)
-		   }
+			$(this).submit();
 		});
+		
 	</script>
 </body>
 </html>

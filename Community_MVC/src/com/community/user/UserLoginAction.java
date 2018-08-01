@@ -25,7 +25,9 @@ public class UserLoginAction extends Action{
 		boolean isSuccess = UserDao.getInstance().isLoginValid(dto);
 		
 		if(isSuccess) {
+			UserDto getDto = UserDao.getInstance().getData(id);
 			request.getSession().setAttribute("id", id);
+			request.getSession().setAttribute("nickname", getDto.getNickname());
 		}
 		
 		request.setAttribute("isSuccess",  isSuccess);

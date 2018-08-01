@@ -12,6 +12,7 @@
 			"content" : "${tmp.content }",
 			"postNum" : ${tmp.postNum },
 			"parentNum" : ${tmp.parentNum },
+			"depth" : ${tmp.depth},
 			"regdate" : "${tmp.regdate }",
 			"likeCnt" : ${tmp.likeCnt },
 			"dislikeCnt" : ${tmp.dislikeCnt },

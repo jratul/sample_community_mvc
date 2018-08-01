@@ -10,7 +10,7 @@
 		VALUES(c_board_free_comment_seq.NEXTVAL, #{writer}, #{content}, #{postNum}, #{parentNum}, #{depth})
 	</insert>
 	<select id="getList" parameterType="commentDto" resultType="commentDto">
-		SELECT t1.num num, t1.writer writer, t1.content content, t1.postNum postNum, t1.parentNum parentNum, t1.regdate regdate, t1.likeCnt likeCnt, t1.dislikeCnt dislikeCnt, t1.rnum rnum, t2.pic pic FROM (
+		SELECT t1.num num, t1.writer writer, t1.content content, t1.postNum postNum, t1.parentNum parentNum, t1.depth depth, t1.regdate regdate, t1.likeCnt likeCnt, t1.dislikeCnt dislikeCnt, t1.rnum rnum, t2.pic pic FROM (
 			SELECT result1.*, ROWNUM rnum FROM (
 				SELECT * FROM c_board_free_comment
 				WHERE postNum = #{postNum}

@@ -14,9 +14,9 @@ import com.community.dto.board.CommentDto;
 public class CommentFreeListAction extends Action{
 	
 	// 한 페이지에 나타낼 로우의 개수
-	private static final int PAGE_ROW_COUNT = 3;
+	private static final int PAGE_ROW_COUNT = 10;
 	// 하단 디스플레이 페이지 개수
-	private static final int PAGE_DISPLAY_COUNT = 3;
+	private static final int PAGE_DISPLAY_COUNT = 10;
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {

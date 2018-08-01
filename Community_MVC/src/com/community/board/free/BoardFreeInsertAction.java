@@ -13,7 +13,7 @@ public class BoardFreeInsertAction extends Action{
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
 		//작성자
-		String writer = (String) request.getSession().getAttribute("id");
+		String writer = (String) request.getSession().getAttribute("nickname");
 		//제목
 		String title = request.getParameter("title");
 		//내용
