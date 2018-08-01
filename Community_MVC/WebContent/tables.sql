@@ -57,14 +57,29 @@ INSERT INTO c_board_free_comment
 VALUES(3, '유건열', '하이', 1, 1, 1, sysdate, 0, 0);
 
 INSERT INTO c_board_free_comment
-VALUES(4, '건열', '오오',1, 1, 1, sysdate, 0, 0)
+VALUES(4, '건열', '오오',1, 1, 1, sysdate, 0, 0);
 
 INSERT INTO c_board_free_comment
-VALUES(5, '김구라', '반갑',1, 3, 2, sysdate, 0, 0)
+VALUES(5, '김구라', '반갑',1, 3, 2, sysdate, 0, 0);
 
 INSERT INTO c_board_free_comment
-VALUES(6, '건열', '히히',1, 3, 2, sysdate, 0, 0)
+VALUES(6, '건열', '히히',1, 3, 2, sysdate, 0, 0);
 
 SELECT * FROM c_board_free_comment
 START WITH parentNum = 0
 CONNECT BY PRIOR num = parentNum
+ORDER SIBLINGS BY num;
+
+SELECT t1.num num, t1.writer writer, t1.content content, t1.postNum postNum, t1.parentNum parentNum, t1.regdate regdate, t1.likeCnt likeCnt, t1.dislikeCnt dislikeCnt, t1.rnum rnum, t2.pic pic FROM (
+			SELECT result1.*, ROWNUM rnum FROM (
+				SELECT * FROM c_board_free_comment
+				WHERE postNum = 1
+				START WITH parentNum = 0
+				CONNECT BY PRIOR num = parentNum
+				ORDER SIBLINGS BY num
+			) result1
+		) t1,
+		(SELECT pic, nickname FROM c_user) t2 
+WHERE t1.writer = t2.nickname AND t1.rnum BETWEEN 1 AND 3;
+
+UPDATE c_board_free_comment SET writer = '유건열' WHERE writer = '건열';

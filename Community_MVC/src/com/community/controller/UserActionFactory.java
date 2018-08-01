@@ -4,6 +4,7 @@ import com.community.board.free.BoardFreeDetailAction;
 import com.community.board.free.BoardFreeInsertAction;
 import com.community.board.free.BoardFreeInsertFormAction;
 import com.community.board.free.BoardFreeListAction;
+import com.community.board.free.CommentFreeListAction;
 import com.community.home.HomeAction;
 import com.community.user.UserCanUseEmailAction;
 import com.community.user.UserCanUseIdAction;
@@ -61,6 +62,8 @@ public class UserActionFactory {
 			action = new BoardFreeInsertAction();
 		} else if(command.equals("/board/free/detail")) {
 			action = new BoardFreeDetailAction();
+		} else if(command.equals("/board/free/comment/list")) {
+			action = new CommentFreeListAction();
 		}
 		
 		return action;

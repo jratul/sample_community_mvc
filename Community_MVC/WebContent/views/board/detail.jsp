@@ -82,52 +82,61 @@
 				</table>
 				<!-- 댓글에 관련된 UI -->
 				<div class="comments">
-					<c:forEach var="tmp" items="${commentList }">
-						<div class="comment"
-							<c:if test="${tmp.num ne tmp.comment_group }">style="margin-left:50px;"</c:if>>
-							<c:if test="${tmp.num ne tmp.comment_group }">
-								<img class="reply_icon"
-									src="${pageContext.request.contextPath }/resources/images/re.gif" />
-							</c:if>
-		
-							<img
-								src="${pageContext.request.contextPath }/resources/images/user_image.gif" />
-							<span><strong>${tmp.writer }</strong></span> <span>${tmp.regdate }</span> <a
-								href="javascript:" class="reply_link">답글</a> | <a href="">신고</a>
-							<c:if test="${tmp.num ne tmp.comment_group }"><br/>
-								<i class="muted"><span class="text-primary">${tmp.target_id }</span></i>
-							</c:if>
-							<p><pre>${tmp.content }</pre></p>
-							<form action="comment_insert.do" method="post" class="form-inline">
-								<!-- 덧글 작성자 -->
-								<input type="hidden" name="writer" value="${id }" />
-								<!-- 덧글 그룹 -->
-								<input type="hidden" name="ref_group" value="${dto.num }" />
-								<!-- 덧글 대상 -->
-								<input type="hidden" name="target_id" value="${tmp.writer }" /> <input
-									type="hidden" name="comment_group" value="${tmp.comment_group }" />
-								<textarea name="content" class="form-control" cols=30 rows=1></textarea>
-								<button type="submit" class="btn btn-primary">등록</button>
-							</form>
-							<br />
-						</div>
-						<hr />
-					</c:forEach>
-					<br />
-					<!-- 원글에 댓글을 작성할수 있는 폼 -->
-					<div class="comment_form">
-						<form action="comment_insert.do" method="post" class="form-inline">
-							<input type="hidden" name="writer" value="${id }" /> <input
-								type="hidden" name="ref_group" value="${dto.num }" /> <input
-								type="hidden" name="target_id" value="${dto.writer }" />
-							<textarea name="content" class="form-control" cols=100></textarea>
-							<button type="submit" class="btn btn-primary">등록</button>
-						</form>
-					</div>
 				</div>
+			</div>
+			<!-- 원글에 댓글을 작성할수 있는 폼 -->
+			<div class="comment_form">
+				<form action="comment_insert.do" method="post" class="form-inline">
+					<input type="hidden" name="writer" value="${id }" /> <input
+						type="hidden" name="ref_group" value="${dto.num }" /> <input
+						type="hidden" name="target_id" value="${dto.writer }" />
+					<textarea name="content" class="form-control" cols=100></textarea>
+					<button type="submit" class="btn btn-primary">등록</button>
+				</form>
 			</div>
 		</div>
 	</div>
 	<%@include file="../include/footer.jsp" %>
+	<script>
+		function appendComment(item) {
+			var newComment = $("<div class='comment'/>");
+			newComment
+			.html("<img src='${pageContext.request.contextPath }"+item.pic+"' style='width: 50px; height:50px;'/>" +" " + item.num + " " + item.writer + " " + item.content + " " + item.likeCnt + " " + item.dislikeCnt + " " + item.regdate);
+			
+			newComment.append("<hr/>").appendTo(".comments");
+		}
+		
+		var postNum = ${postNum};
+		var startPageNum;
+		var endPageNum;
+
+		$.ajax({
+			url: "${pageContext.request.contextPath }/board/free/comment/list.do",
+			data: {
+				"postNum" : postNum,
+				"pageNum" : 1
+			},
+			success: function(responseData) {
+				startPageNum = responseData.startPageNum;
+				endPageNum = responseData.endPageNum;
+				
+				console.log(responseData);
+				responseData.list.forEach(function(value, index) {
+					appendComment(value);
+				});
+				
+				$(".comments").append("<br/>");
+				$(".comments").append("<<");
+				for(var i=startPageNum; i<=endPageNum;i++) {
+					$(".comments").append(i + " ");
+				}
+				$(".comments").append(">>");
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error)
+		   }
+		});
+	</script>
 </body>
 </html>

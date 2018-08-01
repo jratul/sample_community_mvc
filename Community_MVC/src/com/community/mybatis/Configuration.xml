@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<!-- <typeAlias type="test.member.dto.MemberDto" alias="memberDto"/> -->
 		<typeAlias type="com.community.dto.user.UserDto" alias="userDto"/>
 		<typeAlias type="com.community.dto.board.BoardDto" alias="boardDto"/>
+		<typeAlias type="com.community.dto.board.CommentDto" alias="commentDto"/>
 	</typeAliases>
 	
 	<!-- 환경설정 -->
@@ -30,5 +31,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<!-- <mapper resource="test/mybatis/MemberMapper.xml"/> -->
 		<mapper resource="com/community/mybatis/mapper/UserMapper.xml"/>
 		<mapper resource="com/community/mybatis/mapper/board/FreeBoardMapper.xml"/>
+		<mapper resource="com/community/mybatis/mapper/board/FreeCommentMapper.xml"/>
 	</mappers>
 </configuration>

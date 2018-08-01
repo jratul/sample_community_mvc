@@ -56,6 +56,7 @@ public class BoardFreeDetailAction extends Action{
 		//request.setAttribute("commentList", list);
 		
 		request.setAttribute("boardName", "free");
+		request.setAttribute("postNum", num);
 		
 		//4. view 페이지로 forward 이동해서 응답
 		return new ActionForward("/views/board/detail.jsp");

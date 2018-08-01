@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="freeComment">
+	<sql id="freeCommentColumn">
+		num, writer, content, postNum, parentNum, depth, regdate, likeCnt, dislikeCnt
+	</sql>
+	<insert id="insert" parameterType="commentDto">
+		INSERT INTO c_board_free_comment
+		(num, writer, content, postNum, parentNum, depth)
+		VALUES(c_board_free_comment_seq.NEXTVAL, #{writer}, #{content}, #{postNum}, #{parentNum}, #{depth})
+	</insert>
+	<select id="getList" parameterType="commentDto" resultType="commentDto">
+		SELECT t1.num num, t1.writer writer, t1.content content, t1.postNum postNum, t1.parentNum parentNum, t1.regdate regdate, t1.likeCnt likeCnt, t1.dislikeCnt dislikeCnt, t1.rnum rnum, t2.pic pic FROM (
+			SELECT result1.*, ROWNUM rnum FROM (
+				SELECT * FROM c_board_free_comment
+				WHERE postNum = #{postNum}
+				START WITH parentNum = 0
+				CONNECT BY PRIOR num = parentNum
+				ORDER SIBLINGS BY num
+			) result1
+		) t1,
+		(SELECT pic, nickname FROM c_user) t2 
+WHERE t1.writer = t2.nickname AND t1.rnum BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	<select id="getCount" parameterType="int" resultType = "int">
+		SELECT count(*) 
+		FROM c_board_free_comment
+		WHERE postNum= #{postNum}
+	</select>
+</mapper>
