@@ -77,4 +77,41 @@ public class FreeBoardDao {
 		
 		return count;
 	}
+	
+	public BoardDto getData(BoardDto dto) {
+		SqlSession session = null;
+		BoardDto resultDto = null;
+		try {
+			session = factory.openSession(true);
+			//sql문 예시
+			//flag = session.insert("member.insert",dto);
+			resultDto = session.selectOne("freeBoard.getData", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return resultDto;
+	}
+	
+	public boolean addViewCount(int num) {
+		SqlSession session = null;
+		int flag = 0;
+		try {
+			session = factory.openSession(true);
+			//sql문 예시
+			//flag = session.insert("member.insert",dto);
+			flag = session.update("freeBoard.addViewCount", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		if (flag > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

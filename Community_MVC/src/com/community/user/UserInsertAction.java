@@ -40,6 +40,7 @@ public class UserInsertAction extends Action{
 		//WebContent/upload 폴더에 저장된다.
 		MultipartRequest mr = null;
 		boolean isSuccess = false;
+		UserDto dto = new UserDto();
 		try {
 			mr = new MultipartRequest(request,
 					realPath,
@@ -50,36 +51,44 @@ public class UserInsertAction extends Action{
 			//원본 파일명
 			String orgFileName = mr.getOriginalFileName("image");
 			
-			Pattern p = Pattern.compile("\\.(jpg|jpeg|png|gif)$", Pattern.CASE_INSENSITIVE);
-			Matcher m = p.matcher(orgFileName);
-			
-			if(m.find()) {
-				//파일 시스템에 저장된 파일명
-				String saveFileName= mr.getFilesystemName("image");
+			if(orgFileName != null) {
 				
-				String id = mr.getParameter("id");
-				String pwd = mr.getParameter("pwd");
-				String nickname = mr.getParameter("nickname");
-				String email = mr.getParameter("email");
-
-				pwd = ShaEncoder.getInstance().getEncodedStr(pwd);
+				Pattern p = Pattern.compile("\\.(jpg|jpeg|png|gif)$", Pattern.CASE_INSENSITIVE);
+				Matcher m = p.matcher(orgFileName);
 				
-				UserDto dto = new UserDto();
-				dto.setId(id);
-				dto.setPwd(pwd);
-				dto.setNickname(nickname);
-				dto.setEmail(email);
-				dto.setPic("/upload/userPic/" +saveFileName);
-				
-				//DB에 저장한다.
-				isSuccess = UserDao.getInstance().insert(dto);
+				if(m.find()) {
+					//파일 시스템에 저장된 파일명
+					String saveFileName= mr.getFilesystemName("image");
+					
+					dto.setPic("/upload/userPic/" +saveFileName);				
+				} else {
+					isSuccess = false;
+				}
 			} else {
-				isSuccess = false;
+				dto.setPic("/resources/img/no-profile.jpg");
 			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			dto.setPic("/resources/img/no-profile.jpg");
 			e.printStackTrace();
+		} finally {
+			String id = mr.getParameter("id");
+			String pwd = mr.getParameter("pwd");
+			String nickname = mr.getParameter("nickname");
+			String email = mr.getParameter("email");
+
+			pwd = ShaEncoder.getInstance().getEncodedStr(pwd);
+			
+			
+			dto.setId(id);
+			dto.setPwd(pwd);
+			dto.setNickname(nickname);
+			dto.setEmail(email);
+			
+			
+			//DB에 저장한다.
+			isSuccess = UserDao.getInstance().insert(dto);
 		}
 	
 		request.setAttribute("isSuccess", isSuccess);

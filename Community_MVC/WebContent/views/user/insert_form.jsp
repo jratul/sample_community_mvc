@@ -25,13 +25,13 @@
 				<div class="form-row">
 					<div class="form-group col-sm-6">
 						<label for="id">아이디 <span class="form-essential">*</span></label> <span id="checkIdResult"></span><input type="text"
-							class="form-control" name="id" id="id" />
+							class="form-control" name="id" id="joinId" />
 					</div>
 				</div>
 				<div class="form-row">
 					<div class="form-group col-sm-6">
 						<label for="pwd">비밀번호(4~20자) <span class="form-essential">*</span></label> <span id="checkPwdResult"></span><input type="password"
-							class="form-control" name="pwd" id="pwd" />
+							class="form-control" name="pwd" id="joinPwd" />
 					</div>
 				</div>
 				<div class="form-row">
@@ -122,7 +122,7 @@
 		}
 	});
 	
-	$("#id").on("input", function() {
+	$("#joinId").on("input", function() {
 		var inputId = $(this).val();
 		
 		$.ajax({
@@ -130,7 +130,7 @@
 			method: "post",
 			data: {inputId: inputId},
 			success: function(responseData) {
-				if(responseData.canUse && $("#id").val() != "") {
+				if(responseData.canUse && $("#joinId").val() != "") {
 					formIdValid = true;
 					$("#checkIdResult")
 					.text("사용가능")
@@ -145,8 +145,8 @@
 		});
 	});
 	
-	$("#pwd").on("input", function() {
-		var pwd = $("#pwd").val();
+	$("#joinPwd").on("input", function() {
+		var pwd = $("#joinPwd").val();
 		var pwdLen = pwd.length;
 		
 		if(pwdLen < 4 || pwdLen > 20) {
@@ -162,7 +162,7 @@
 	
 	
 	$("#pwd-re").on("input", function() {
-		var pwd = $("#pwd").val();
+		var pwd = $("#joinPwd").val();
 		var pwdRe = $(this).val();
 		
 		if(pwd === pwdRe) {

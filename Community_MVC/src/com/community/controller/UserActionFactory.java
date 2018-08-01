@@ -1,5 +1,6 @@
 package com.community.controller;
 
+import com.community.board.free.BoardFreeDetailAction;
 import com.community.board.free.BoardFreeInsertAction;
 import com.community.board.free.BoardFreeInsertFormAction;
 import com.community.board.free.BoardFreeListAction;
@@ -58,6 +59,8 @@ public class UserActionFactory {
 			action = new BoardFreeInsertFormAction();
 		} else if(command.equals("/board/private/free/insert")) {
 			action = new BoardFreeInsertAction();
+		} else if(command.equals("/board/free/detail")) {
+			action = new BoardFreeDetailAction();
 		}
 		
 		return action;

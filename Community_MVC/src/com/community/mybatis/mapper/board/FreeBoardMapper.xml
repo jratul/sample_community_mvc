@@ -10,6 +10,27 @@
 		(num, writer, title, content)
 		VALUES(c_board_free_seq.NEXTVAL, #{writer}, #{title}, #{content})
 	</insert>
+	<select id="getData" parameterType="boardDto" resultType="boardDto">
+		SELECT *
+		FROM (
+		SELECT <include refid="boardColumn"/>,
+			LAG(num, 1, 0) OVER(ORDER BY num DESC) prevNum, 
+			LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum
+		FROM c_board_free
+		<where>
+			<if test="writer != null">
+				OR writer LIKE '%'||#{writer}||'%'
+			</if>
+			<if test="title != null">
+				OR title LIKE '%'||#{title}||'%'
+			</if>
+			<if test="content != null">
+				OR content LIKE '%'||#{content}||'%'
+			</if>
+		</where>
+		ORDER BY num DESC) 
+		WHERE num = #{num}
+	</select>
 	<select id="getList" parameterType="boardDto" resultType="boardDto">
 		SELECT *
 		FROM	(
@@ -45,4 +66,9 @@
 			</if>
 		</where>
 	</select>
+	<update id="addViewCount" parameterType="int">
+		UPDATE c_board_free
+		SET viewCount = viewCount + 1
+		WHERE num = #{num}
+	</update>
 </mapper>
