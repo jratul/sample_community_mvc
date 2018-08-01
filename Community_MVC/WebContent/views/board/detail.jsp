@@ -102,15 +102,25 @@
 	</div>
 	<%@include file="../include/footer.jsp" %>
 	<script>
+		var postNum = ${postNum};
+		var startPageNum;
+		var endPageNum;
+		var commentList = [];
 		function appendComment(item) {
 			var marginLeft = 50 * item.depth;
 			var newComment = $("<div class='comment' style='margin-left:"+ marginLeft + "px'/>");
 			newComment
 			.html("<img src='${pageContext.request.contextPath }"+item.pic+"' style='width: 50px; height:50px;'/>" +" " + item.num + " <strong>" + item.writer + "</strong> " + item.content + " <font color = 'blue'>" + item.likeCnt + "</font> <font color='red'>" + item.dislikeCnt + "</font> " + item.regdate
-				+ "<div class= 'commentRightBtn'><font color='blue'>추천</font>  <font color='red'>비추천</font>  수정  삭제  답글</div>"
+				+ "<div class= 'commentRightBtn'><font color='blue'>추천</font>  <font color='red'>비추천</font>  수정  삭제  <a href='javascript:openSubComment("+ item.num + ", " + item.postNum + ", " + item.depth + ")'>답글</a></div>"
 			);
 			
 			newComment.append("<hr/>").appendTo(".comments");
+			commentList.push({
+				"div" : newComment,
+				"num" : item.num,
+				"postNum" : item.postNum, 
+				"depth" : item.depth
+			});
 		}
 		
 		function loadComments(postNum, pageNum) {
@@ -125,6 +135,7 @@
 					endPageNum = responseData.endPageNum;
 					
 					$(".comments").html("");
+					commentList = [];
 					responseData.list.forEach(function(value, index) {
 						appendComment(value);
 					});
@@ -152,9 +163,38 @@
 			});
 		}
 		
-		var postNum = ${postNum};
-		var startPageNum;
-		var endPageNum;
+		function openSubComment(parentNum, postNum, parentDepth) {
+			var targetDiv;
+			
+			<c:if test="${empty nickname}">
+				alert("로그인이 필요합니다.");
+				return;
+			</c:if>
+			
+			commentList.forEach(function(value, idx) {
+				if(parentNum == value.num) {
+					targetDiv = value.div;
+				}
+			});
+			
+			$(".subComment").remove();
+			
+			targetDiv.append(
+				"<div class='subComment'>"
+				+	"<form action='${pageContext.request.contextPath }/board/${boardName }/comment/insert.do' method='post' class='form-inline subCommentForm'>"
+				+		"<input type='hidden' name='writer' value='${nickname }' />"
+				+		"<input type='hidden' name='postNum' value='" + postNum + "' />"
+				+		"<input type='hidden' name='parentNum' value='" + parentNum + "' />"
+				+		"<input type='hidden' name='depth' value='"+ (parentDepth + 1) + "' />"
+				+		"<textarea name='content' class='form-control' cols=100></textarea>"
+				+		"<button type='submit' class='btn btn-primary'>등록</button>"
+				+	"</form>"
+				+"</div>"
+			
+			);
+		}
+		
+		
 
 		loadComments(postNum, 1);
 		
