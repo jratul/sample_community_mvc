@@ -32,4 +32,29 @@
 		SET point = point + 1
 		WHERE id = #{id}
 	</update>
+	<select id="checkAlreadyLike" parameterType="commentDto" resultType="int">
+		SELECT count(*)
+		FROM c_board_free_comment_like
+		WHERE id = #{writer} AND (likeCmtNum = #{num} OR dislikeCmtNum = #{num})
+	</select>
+	<insert id="doLike" parameterType="commentDto">
+		INSERT INTO c_board_free_comment_like
+		(id, likeCmtNum)
+		VALUES(#{writer}, #{num})
+	</insert>
+	<insert id="doDislike" parameterType="commentDto">
+		INSERT INTO c_board_free_comment_like
+		(id, dislikeCmtNum)
+		VALUES(#{writer}, #{num})
+	</insert>
+	<update id="upLike" parameterType="int">
+		UPDATE c_board_free_comment
+		SET likeCnt = likeCnt + 1
+		WHERE num = #{num}
+	</update>
+	<update id="upDislike" parameterType="int">
+		UPDATE c_board_free_comment
+		SET dislikeCnt = dislikeCnt + 1
+		WHERE num= #{num}
+	</update>
 </mapper>

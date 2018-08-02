@@ -95,4 +95,104 @@ public class FreeCommentDao {
 			return false;
 		}
 	}
+	
+	public boolean checkAlreadyLike(CommentDto dto) {
+		SqlSession session = null;
+		int result = 0;
+		try {
+			session = factory.openSession(true);
+			//sql문 예시
+			//flag = session.insert("member.insert",dto);
+			result = session.selectOne("freeComment.checkAlreadyLike", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		if (result > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean doLike(CommentDto dto) {
+		SqlSession session = null;
+		int flag = 0;
+		try {
+			session = factory.openSession(true);
+			//sql문 예시
+			//flag = session.insert("member.insert",dto);
+			flag = session.insert("freeComment.doLike", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		if (flag > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean doDislike(CommentDto dto) {
+		SqlSession session = null;
+		int flag = 0;
+		try {
+			session = factory.openSession(true);
+			//sql문 예시
+			//flag = session.insert("member.insert",dto);
+			flag = session.insert("freeComment.doDislike", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		if (flag > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean upLike(int num) {
+		SqlSession session = null;
+		int flag = 0;
+		try {
+			session = factory.openSession(true);
+			//sql문 예시
+			//flag = session.insert("member.insert",dto);
+			flag = session.update("freeComment.upLike", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		if (flag > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean upDislike(int num) {
+		SqlSession session = null;
+		int flag = 0;
+		try {
+			session = factory.openSession(true);
+			//sql문 예시
+			//flag = session.insert("member.insert",dto);
+			flag = session.update("freeComment.upDislike", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		if (flag > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

@@ -5,6 +5,7 @@ import com.community.board.free.BoardFreeInsertAction;
 import com.community.board.free.BoardFreeInsertFormAction;
 import com.community.board.free.BoardFreeListAction;
 import com.community.board.free.CommentFreeInsertAction;
+import com.community.board.free.CommentFreeLikeAction;
 import com.community.board.free.CommentFreeListAction;
 import com.community.home.HomeAction;
 import com.community.user.UserCanUseEmailAction;
@@ -67,6 +68,8 @@ public class UserActionFactory {
 			action = new CommentFreeListAction();
 		} else if(command.equals("/board/free/comment/insert")) {
 			action = new CommentFreeInsertAction();
+		} else if(command.equals("/board/free/comment/like")) {
+			action = new CommentFreeLikeAction();
 		}
 		
 		return action;

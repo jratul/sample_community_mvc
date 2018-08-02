@@ -111,7 +111,7 @@
 			var newComment = $("<div class='comment' style='margin-left:"+ marginLeft + "px'/>");
 			newComment
 			.html("<img src='${pageContext.request.contextPath }"+item.pic+"' style='width: 50px; height:50px;'/>" +" " + item.num + " <strong>" + item.writer + "</strong> " + item.content + " <font color = 'blue'>" + item.likeCnt + "</font> <font color='red'>" + item.dislikeCnt + "</font> " + item.regdate
-				+ "<div class= 'commentRightBtn'><font color='blue'>추천</font>  <font color='red'>비추천</font>  수정  삭제  <a href='javascript:openSubComment("+ item.num + ", " + item.postNum + ", " + item.depth + ")'>답글</a></div>"
+				+ "<div class= 'commentRightBtn'><font color='blue'><a href='javascript: doLike("+ item.num + ")'>추천</a></font>  <font color='red'><a href='javascript: doDislike("+ item.num + ")'>비추천</a></font>  수정  삭제  <a href='javascript:openSubComment("+ item.num + ", " + item.postNum + ", " + item.depth + ")'>답글</a></div>"
 			);
 			
 			newComment.append("<hr/>").appendTo(".comments");
@@ -166,10 +166,10 @@
 		function openSubComment(parentNum, postNum, parentDepth) {
 			var targetDiv;
 			
-			<c:if test="${empty nickname}">
+			if(${empty nickname}) {
 				alert("로그인이 필요합니다.");
-				return;
-			</c:if>
+				return false;
+			}
 			
 			commentList.forEach(function(value, idx) {
 				if(parentNum == value.num) {
@@ -206,6 +206,46 @@
 				
 			$(this).submit();
 		});
+		
+		function doLike(num) {
+			if(${empty nickname}) {
+				alert("로그인이 필요합니다.");
+				return false;
+			}
+			var height = $(document).scrollTop();
+			$.ajax({
+				url : "${pageContext.request.contextPath }/board/free/comment/like.do",
+				data: {"num" : num, "likeOrDislike": "like"},
+				success: function(responseData) {
+					if(responseData.canLike) {
+						location.reload();
+						$(document).scrollTop(height);
+					} else {
+						alert("추천, 비추천할 수 없습니다.");
+					}
+				}
+			})
+		}
+		
+		function doDislike(num) {
+			if(${empty nickname}) {
+				alert("로그인이 필요합니다.");
+				return false;
+			}
+			var height = $(document).scrollTop();
+			$.ajax({
+				url : "${pageContext.request.contextPath }/board/free/comment/like.do",
+				data: {"num" : num, "likeOrDislike": "dislike"},
+				success: function(responseData) {
+					if(responseData.canLike) {
+						location.reload();
+						$(document).scrollTop(height);
+					} else {
+						alert("추천, 비추천할 수 없습니다.");
+					}
+				}
+			})
+		}
 		
 	</script>
 </body>
