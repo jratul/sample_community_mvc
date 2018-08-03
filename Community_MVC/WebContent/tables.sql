@@ -90,3 +90,5 @@ SELECT t1.num num, t1.writer writer, t1.content content, t1.postNum postNum, t1.
 WHERE t1.writer = t2.nickname AND t1.rnum BETWEEN 1 AND 3;
 
 UPDATE c_board_free_comment SET writer = '유건열' WHERE writer = '건열';
+
+SELECT * FROM c_board_free_comment

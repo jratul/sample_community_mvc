@@ -109,10 +109,23 @@
 		function appendComment(item) {
 			var marginLeft = 50 * item.depth;
 			var newComment = $("<div class='comment' style='margin-left:"+ marginLeft + "px'/>");
+			var commentModify = " <a href=\"javascript:openUpdateComment(" + item.num+ ", " + item.postNum + ", \'"+ item.content + "\')\">수정</a> <a href='javascript:commentDeleteConfirm("+item.num+")'>삭제</a> "
+			var commentBase = "<img src='${pageContext.request.contextPath }"+item.pic+"' style='width: 50px; height:50px;'/>" +" " + item.num + " <strong>" + item.writer + "</strong> " + item.content + " <font color = 'blue'>" + item.likeCnt + "</font> <font color='red'>" + item.dislikeCnt + "</font> " + item.regdate;
+			var commentLike =  "<div class= 'commentRightBtn'><font color='blue'><a href='javascript: doLike("+ item.num + ")'>추천</a></font>  <font color='red'><a href='javascript: doDislike("+ item.num + ")'>비추천</a></font>  <a href='javascript:openSubComment("+ item.num + ", " + item.postNum + ", " + item.depth + ")'>답글</a></div>"
+
+			if(${not empty nickname} && '${nickname}' == item.writer && item.isDelete == 0) {
+				commentBase += commentModify;
+			}
+			
+			if(item.isDelete == 0) {
+				commentBase += commentLike;
+			}
 			newComment
-			.html("<img src='${pageContext.request.contextPath }"+item.pic+"' style='width: 50px; height:50px;'/>" +" " + item.num + " <strong>" + item.writer + "</strong> " + item.content + " <font color = 'blue'>" + item.likeCnt + "</font> <font color='red'>" + item.dislikeCnt + "</font> " + item.regdate
-				+ "<div class= 'commentRightBtn'><font color='blue'><a href='javascript: doLike("+ item.num + ")'>추천</a></font>  <font color='red'><a href='javascript: doDislike("+ item.num + ")'>비추천</a></font>  수정  삭제  <a href='javascript:openSubComment("+ item.num + ", " + item.postNum + ", " + item.depth + ")'>답글</a></div>"
-			);
+			.html(commentBase);
+			
+			if(item.isDelete == 1) {
+				newComment.css("background-color", "#cccccc");
+			}
 			
 			newComment.append("<hr/>").appendTo(".comments");
 			commentList.push({
@@ -189,12 +202,32 @@
 				+		"<textarea name='content' class='form-control' cols=100></textarea>"
 				+		"<button type='submit' class='btn btn-primary'>등록</button>"
 				+	"</form>"
-				+"</div>"
+				+"</div><br/>"
 			
 			);
 		}
 		
-		
+		function openUpdateComment(num, postNum, content) {
+			var targetDiv;
+			commentList.forEach(function(value, idx) {
+				if(num == value.num) {
+					targetDiv = value.div;
+				}
+			});
+			
+			$(".subComment").remove();
+			
+			targetDiv.append(
+					"<div class='subComment'>"
+					+	"<form action='${pageContext.request.contextPath }/board/${boardName }/comment/update.do' method='post' class='form-inline subCommentForm'>"
+					+		"<input type='hidden' name='num' value='"+ num + "'/>"
+					+		"<input type='hidden' name='postNum' value='" + postNum + "'/>"
+					+		"<textarea name='content' class='form-control' cols=100>"+ content + "</textarea>"
+					+		"<button type='submit' class='btn btn-primary'>등록</button>"
+					+	"</form>"
+					+"</div><br/>"
+				);
+		}
 
 		loadComments(postNum, 1);
 		
@@ -242,6 +275,24 @@
 						$(document).scrollTop(height);
 					} else {
 						alert("추천, 비추천할 수 없습니다.");
+					}
+				}
+			})
+		}
+		
+		function commentDeleteConfirm(num) {
+			var height = $(document).scrollTop();
+			var isDelete = confirm("정말로 댓글을 삭제하시겠습니까?");
+			if(!isDelete) return;
+			$.ajax({
+				url: "${pageContext.request.contextPath }/board/free/comment/delete.do",
+				data: {"num" : num},
+				success: function(responseData) {
+					if(responseData.isSuccess) {
+						location.reload();
+						$(document).scrollTop(height);
+					} else {
+						alert("댓글 삭제에 실패했습니다.")
 					}
 				}
 			})

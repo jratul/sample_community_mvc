@@ -4,9 +4,12 @@ import com.community.board.free.BoardFreeDetailAction;
 import com.community.board.free.BoardFreeInsertAction;
 import com.community.board.free.BoardFreeInsertFormAction;
 import com.community.board.free.BoardFreeListAction;
+import com.community.board.free.CommentFreeDeleteAction;
+import com.community.board.free.CommentFreeGetDataAction;
 import com.community.board.free.CommentFreeInsertAction;
 import com.community.board.free.CommentFreeLikeAction;
 import com.community.board.free.CommentFreeListAction;
+import com.community.board.free.CommentFreeUpdateAction;
 import com.community.home.HomeAction;
 import com.community.user.UserCanUseEmailAction;
 import com.community.user.UserCanUseIdAction;
@@ -70,6 +73,12 @@ public class UserActionFactory {
 			action = new CommentFreeInsertAction();
 		} else if(command.equals("/board/free/comment/like")) {
 			action = new CommentFreeLikeAction();
+		} else if(command.equals("/board/free/comment/delete")) {
+			action = new CommentFreeDeleteAction();
+		} else if(command.equals("/board/free/comment/getData")) {
+			action = new CommentFreeGetDataAction();
+		} else if(command.equals("/board/free/comment/update")) {
+			action = new CommentFreeUpdateAction();
 		}
 		
 		return action;

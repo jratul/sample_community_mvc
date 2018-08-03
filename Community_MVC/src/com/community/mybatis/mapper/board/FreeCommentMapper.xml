@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="freeComment">
 	<sql id="freeCommentColumn">
-		num, writer, content, postNum, parentNum, depth, regdate, likeCnt, dislikeCnt
+		num, writer, content, postNum, parentNum, depth, regdate, likeCnt, dislikeCnt, isDelete
 	</sql>
 	<insert id="insert" parameterType="commentDto">
 		INSERT INTO c_board_free_comment
@@ -10,7 +10,7 @@
 		VALUES(c_board_free_comment_seq.NEXTVAL, #{writer}, #{content}, #{postNum}, #{parentNum}, #{depth})
 	</insert>
 	<select id="getList" parameterType="commentDto" resultType="commentDto">
-		SELECT t1.num num, t1.writer writer, t1.content content, t1.postNum postNum, t1.parentNum parentNum, t1.depth depth, t1.regdate regdate, t1.likeCnt likeCnt, t1.dislikeCnt dislikeCnt, t1.rnum rnum, t2.pic pic FROM (
+		SELECT t1.num num, t1.writer writer, t1.content content, t1.postNum postNum, t1.parentNum parentNum, t1.depth depth, t1.regdate regdate, t1.likeCnt likeCnt, t1.dislikeCnt dislikeCnt, t1.rnum rnum,  t1.isDelete isDelete, t2.pic pic FROM (
 			SELECT result1.*, ROWNUM rnum FROM (
 				SELECT * FROM c_board_free_comment
 				WHERE postNum = #{postNum}
@@ -56,5 +56,20 @@
 		UPDATE c_board_free_comment
 		SET dislikeCnt = dislikeCnt + 1
 		WHERE num= #{num}
+	</update>
+	<update id="commentDelete" parameterType="int">
+		UPDATE c_board_free_comment
+		SET isDelete = 1
+		WHERE num = #{num}
+	</update>
+	<select id="getData" parameterType="int" resultType="commentDto">
+		SELECT <include refid="freeCommentColumn"/>
+		FROM c_board_free_comment
+		WHERE num = #{num}
+	</select>
+	<update id="update" parameterType="commentDto">
+		UPDATE c_board_free_comment
+		SET content = #{content}
+		WHERE num = #{num}
 	</update>
 </mapper>

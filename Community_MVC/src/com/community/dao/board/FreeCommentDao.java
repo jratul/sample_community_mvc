@@ -195,4 +195,60 @@ public class FreeCommentDao {
 			return false;
 		}
 	}
+	
+	public boolean commentDelete(int num) {
+		SqlSession session = null;
+		int flag = 0;
+		try {
+			session = factory.openSession(true);
+			//sql문 예시
+			//flag = session.insert("member.insert",dto);
+			flag = session.update("freeComment.commentDelete", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		if (flag > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public CommentDto getData(int num) {
+		SqlSession session = null;
+		CommentDto dto = null;
+		try {
+			session = factory.openSession(true);
+			//sql문 예시
+			//flag = session.insert("member.insert",dto);
+			dto = session.selectOne("freeCommnet.getData", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return dto;
+	}
+	
+	public boolean update(CommentDto dto) {
+		SqlSession session = null;
+		int flag = 0;
+		try {
+			session = factory.openSession(true);
+			//sql문 예시
+			//flag = session.insert("member.insert",dto);
+			flag = session.update("freeComment.update", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		if (flag > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

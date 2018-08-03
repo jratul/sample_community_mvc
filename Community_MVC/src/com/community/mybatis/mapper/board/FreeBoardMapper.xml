@@ -76,4 +76,12 @@
 		SET point = point + 3
 		WHERE id = #{id}
 	</update>
+	<select id="getPreviewList" resultType="boardDto">
+		SELECT *
+		FROM ( SELECT result1.*, ROWNUM rnum FROM (
+			SELECT <include refid="boardColumn"/>
+			FROM c_board_free
+			ORDER BY num DESC) result1)
+		WHERE rnum BETWEEN 1 AND 5
+	</select>
 </mapper>

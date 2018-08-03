@@ -13,11 +13,12 @@ public class CommentDto {
 	private int startRowNum;
 	private int endRowNum;
 	private String pic;
+	private int isDelete;
 	
 	public CommentDto() {}
 
 	public CommentDto(int num, String writer, String content, int postNum, int parentNum, int depth, String regdate,
-			int likeCnt, int dislikeCnt, int startRowNum, int endRowNum, String pic) {
+			int likeCnt, int dislikeCnt, int startRowNum, int endRowNum, String pic, int isDelete) {
 		super();
 		this.num = num;
 		this.writer = writer;
@@ -31,6 +32,7 @@ public class CommentDto {
 		this.startRowNum = startRowNum;
 		this.endRowNum = endRowNum;
 		this.pic = pic;
+		this.isDelete = isDelete;
 	}
 
 	public int getNum() {
@@ -128,6 +130,14 @@ public class CommentDto {
 	public void setPic(String pic) {
 		this.pic = pic;
 	}
-	
+
+	public int getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(int isDelete) {
+		this.isDelete = isDelete;
+	}
+
 	
 }

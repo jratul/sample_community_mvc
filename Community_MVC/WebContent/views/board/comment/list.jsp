@@ -16,7 +16,8 @@
 			"regdate" : "${tmp.regdate }",
 			"likeCnt" : ${tmp.likeCnt },
 			"dislikeCnt" : ${tmp.dislikeCnt },
-			"pic" : "${tmp.pic}"
+			"pic" : "${tmp.pic}",
+			"isDelete" : ${tmp.isDelete}
 		}
 		<c:if test="${!index.last }">,</c:if>
 	</c:forEach>

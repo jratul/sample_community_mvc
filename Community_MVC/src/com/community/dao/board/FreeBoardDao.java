@@ -134,4 +134,20 @@ public class FreeBoardDao {
 			return false;
 		}
 	}
+	
+	public List<BoardDto> getPreviewList() {
+		SqlSession session = null;
+		List<BoardDto> list = new ArrayList<>();
+		try {
+			session = factory.openSession(true);
+			//sql¹® ¿¹½Ã
+			//flag = session.insert("member.insert",dto);
+			list = session.selectList("freeBoard.getPreviewList");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return list;
+	}
 }

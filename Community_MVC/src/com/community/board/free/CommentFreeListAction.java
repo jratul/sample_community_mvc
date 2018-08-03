@@ -55,6 +55,12 @@ public class CommentFreeListAction extends Action{
 		
 		List<CommentDto> list = FreeCommentDao.getInstance().getList(dto);
 		
+		for(CommentDto tmp:list) {
+			if(tmp.getIsDelete() == 1) {
+				tmp.setContent("삭제된 댓글입니다.");
+			}
+		}
+		
 		request.setAttribute("list", list);
 		request.setAttribute("startPageNum", startPageNum);
 		request.setAttribute("endPageNum", endPageNum);
